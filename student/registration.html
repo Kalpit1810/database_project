@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Registration Form</title>
+</head>
+<body>
+	<h2>User Registration Form</h2>
+	<form action="registration.php" method="POST">
+		<label for="fname">First Name:</label>
+		<input type="text" id="fname" name="fname" required>
+		<label for="lname">Last Name:</label>
+		<input type="text" id="lname" name="lname" required>
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required>
+		<label for="confirm_password">Confirm Password:</label>
+		<input type="password" id="confirm_password" name="confirm_password" required>
+		<label for="rollno">Roll No:</label>
+		<input type="text" id="rollno" name="rollno" required>
+		<label for="cpi">CPI:</label>
+		<input type="number" id="cpi" name="cpi" min="0" step="0.01" required>
+		<label for="qualification">Qualification:</label>
+		<select id="qualification" name="qualification">
+			<option value="B.Tech">B.Tech</option>
+			<option value="M.Tech">M.Tech</option>
+			<option value="PhD">PhD</option>
+			<option value="Other">Other</option>
+		</select>
+		<label for="role">Role:</label>
+		<select id="role" name="role">
+			<option value="SDE">SDE</option>
+			<option value="ML ENGINEER">ML ENGINEER</option>
+			<option value="RESEARCH">RESEARCH</option>
+			<option value="DATA SCIENTIST">DATA SCIENTIST</option>
+			<option value="ANALYST">ANALYST</option>
+			<option value="CONSULTANT">CONSULTANT</option>
+			<option value="HR">HR</option>
+			<option value="CORE">CORE</option>
+			<option value="OTHERS">OTHERS</option>
+		</select>
+		<label for="graduation_year">Graduation Year:</label>
+		<input type="number" id="graduation_year" name="graduation_year" min="1900" max="<?php echo date('Y'); ?>" required>
+		<label for="worked_in_company">Worked in a Company before:</label>
+		<input type="checkbox" id="worked_in_company" name="worked_in_company" value="yes">
+		<div id="company_fields">
+			<label for="company_name">Company Name:</label>
+			<input type="text" id="company_name" name="company_name">
+			<label for="salary_in_company">Salary in Company:</label>
+			<input type="number" id="salary_in_company" name="salary_in_company" min="0" step="0.01">
+		</div>
+		<input type="submit" value="Submit">
+	</form>	
+	<script>
+		var companyFields = document.getElementById('company_fields');
+		var workedInCompanyCheckbox = document.getElementById('worked_in_company');
+		companyFields.style.display = 'none';
+		workedInCompanyCheckbox.addEventListener('change', function() {
+			if (this.checked) {
+				companyFields.style.display = 'block';
+			} else {
+				companyFields.style.display = 'none';
+			}
+		});
+	</script>
+		<style>
+			body {
+			  background-color: #f2f2f2;
+			  font-family: Arial, sans-serif;
+			}
+			
+			h2 {
+			  color: #008080;
+			  text-align: center;
+			}
+			
+			form {
+			  margin: 0 auto;
+			  max-width: 500px;
+			  padding: 20px;
+			  background-color: #ffffff;
+			  border-radius: 5px;
+			  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+			}
+			
+			label {
+			  display: block;
+			  margin-bottom: 5px;
+			  color: #333333;
+			}
+			
+			input[type=text],
+			input[type=email],
+			input[type=password],
+			input[type=number],
+			select {
+			  display: block;
+			  margin-bottom: 10px;
+			  padding: 10px;
+			  width: 100%;
+			  border-radius: 5px;
+			  border: 1px solid #cccccc;
+			  box-sizing: border-box;
+			  font-size: 16px;
+			  color: #333333;
+			}
+			
+			input[type=checkbox] {
+			  margin-right: 5px;
+			}
+			
+			input[type=submit] {
+			  background-color: #008080;
+			  color: #ffffff;
+			  padding: 10px 20px;
+			  border-radius: 5px;
+			  border: none;
+			  font-size: 16px;
+			  cursor: pointer;
+			}
+			
+			input[type=submit]:hover {
+			  background-color: #005959;
+			}
+			
+				</style>
+</body>
+</html>

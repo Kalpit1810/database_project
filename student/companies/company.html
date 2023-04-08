@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="company_form.css">
+    <title>company</title>
+</head>
+<body>  
+    <form action="comapny_fill.php" method="POST">
+        <label for="company_name">Company Name:</label>
+        <input type="text" id="company_name" name="company_name" required>
+      
+        <label for="company_logo">Company Logo:</label>
+        <input type="file" id="company_logo" name="company_logo">
+      
+        <label for="company_description">Company Description:</label>
+        <textarea id="company_description" name="company_description"></textarea>
+      
+        <label for="min_qualification">Minimum Qualification Required:</label>
+        <select id="min_qualification" name="min_qualification">
+          <option value="Bachelors">Bachelors</option>
+          <option value="Masters">Masters</option>
+          <option value="PhD">PhD</option>
+        </select>
+      
+        <label for="salary_package">Salary Package(Lpa):</label>
+        <input type="number" id="salary_package" name="salary_package" required>
+      
+        <label for="mode_of_interview">Mode of Interview:</label>
+        <select id="mode_of_interview" name="mode_of_interview">
+          <option value="Online/Written">Online</option>
+          <option value="Offline/Interview">Offline</option>
+        </select>
+      
+        <label for="recruitment_year">Since which year the company has been recruiting in IIT Patna:</label>
+        <input type="number" id="recruitment_year" name="recruitment_year" required>
+    
+        <label for="contact_person_name">Contact Person/HR Manager Name:</label>
+        <input type="text" id="contact_person_name" name="contact_person_name" required>
+      
+        <label for="contact_person_email">Contact Person/HR Manager Email:</label>
+        <input type="email" id="contact_person_email" name="contact_person_email" required>
+      
+        <input type="submit" value="submit">
+    </form>
+      
+</body>
+</html>
