@@ -21,7 +21,7 @@ if (isset($_POST['logout'])) {
 		session_unset();
 		session_destroy();
 		echo "<div class='success-message'>logout success!</div>";
-        echo "<a class='login-button' href='_company_login_ui.php'>Login</a>";
+        echo "<a class='login-button' href='company_login_ui.php'>Login</a>";
 		exit();
 
 	$conn->close();

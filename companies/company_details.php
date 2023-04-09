@@ -5,15 +5,12 @@
     <title>Company Registration</title>
   </head>
   <body>
-    <form action="register.php" method="post" enctype="multipart/form-data">
+    <form action="company_details_update.php" method="post" enctype="multipart/form-data">
       <label for="company-name">Company Name:</label>
       <input type="text" id="company-name" name="company-name" required>
 
       <label for="company-email">Company Email:</label>
       <input type="email" id="company-email" name="company-email" required>
-
-      <label for="company-logo">Company Logo:</label>
-      <input type="file" id="company-logo" name="company-logo" accept="image/*" required>
 
       <label for="min-graduation">Minimum Graduation:</label>
       <select id="min-graduation" name="min-graduation" required>
@@ -56,8 +53,9 @@
       <label for="contact-email">Contact Person Email:</label>
       <input type="email" id="contact-email" name="contact-email" required>
 
-      <button type="submit">Register</button>
+      <button type="submit">Update Details</button>
     </form>
+
     <style>
         body {
             background-color: #f2f2f2;
@@ -121,3 +119,37 @@
     
   </body>
 </html>
+
+<?php
+// start session
+session_start();
+
+// establish database connection
+$conn = mysqli_connect("localhost", "newuser", "niibtarana", "dblab8");
+
+// retrieve company data using email from session
+$email = $_SESSION['company_email'];
+$query = "SELECT * FROM company_database WHERE company_email = '$email'";
+$result = mysqli_query($conn, $query);
+
+// check if data exists for given email
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    
+    // fill form inputs with company data
+    echo '<script>
+          document.getElementById("company-name").value = "'.$row["company_name"].'";
+          document.getElementById("company-email").value = "'.$row["company_email"].'";
+          document.getElementById("min-graduation").value = "'.$row["min_graduation"].'";
+          document.getElementById("min-cpi").value = "'.$row["min_cpi"].'";
+          document.getElementById("interview-mode").value = "'.$row["interview_process"].'";
+          document.getElementById("salary").value = "'.$row["max_salary"].'";
+          document.getElementById("role").value = "'.$row["role"].'";
+          document.getElementById("placement-since").value = "'.$row["placement_since_year"].'";
+          document.getElementById("contact-name").value = "'.$row["contact_person_name"].'";
+          document.getElementById("contact-email").value = "'.$row["contact_person_email"].'";
+          </script>';
+}
+mysqli_close($conn);
+?>
+
