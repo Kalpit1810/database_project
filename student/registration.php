@@ -14,7 +14,6 @@ if ($conn->connect_error) {
 
 // Get form data and validate
 $fname = test_input($_POST["fname"]);
-$lname = test_input($_POST["lname"]);
 $email = test_input($_POST["email"]);
 $password = test_input($_POST["password"]);
 $confirm_password = test_input($_POST["confirm_password"]);
@@ -46,8 +45,8 @@ if ($result->num_rows > 0) {
 }
 
 // Insert data into "users" table
-$sql = "INSERT INTO users (first_name, last_name, email, password)
-        VALUES ('$fname', '$lname', '$email', '$password')";
+$sql = "INSERT INTO users (email, password)
+        VALUES ('$email', '$password')";
 
 if ($conn->query($sql) === TRUE) {
     // Show success message and login button
