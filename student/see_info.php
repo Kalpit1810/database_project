@@ -53,22 +53,16 @@
 		// Retrieve user data from session
 		$user_email = $_SESSION['user_email'];
 
-		// Connect to the MySQL database
-		$servername = "localhost";
-		$username = "newuser";
-		$password = "niibtarana";
-		$dbname = "dblab8";
-
-		$conn = new mysqli($servername, $username, $password, $dbname);
+		require_once 'db_config.php';
 
 		// Check connection
-		if ($conn->connect_error) {
-		  die("Connection failed: " . $conn->connect_error);
+		if ($db_conn->connect_error) {
+		  die("Connection failed: " . $db_conn->connect_error);
 		}
 
 		// Retrieve user information from the database
 		$sql = "SELECT * FROM users WHERE email='$user_email'";
-		$result = $conn->query($sql);
+		$result = $db_conn->query($sql);
 
 		if ($result->num_rows > 0) {
 		  // Output data of each row
@@ -81,7 +75,7 @@
 		  echo "<tr><td colspan='2'>User information not found</td></tr>";
 		}
 
-		$conn->close();
+		$db_conn->close();
 		?>
 	</table>
 </body>

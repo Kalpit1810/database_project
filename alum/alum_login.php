@@ -2,7 +2,7 @@
 session_start();
 
 // Check if user is logged in
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['alum_id'])) {
   header("Location: welcome.php");
   exit();
 }
@@ -87,15 +87,15 @@ if (isset($_SESSION['user_id'])) {
 </style>
 </head>
 <body>
-	<h2>User Login</h2>
-	<form action="login.php" method="post">
+	<h2>Alumni Login</h2>
+	<form action="alum_login_main.php" method="post">
   		<label for="email">Email:</label>
   		<input type="email" id="email" name="email" required>
   		<label for="password">Password:</label>
   		<input type="password" id="password" name="password" required><br><br>
 		<input type="submit" value="Login">
 	</form>
-  <form action="registration.html">
+  <form action="alum_registration.html">
 	<button class="register-btn" id="register-btn">Register</button>
   </form>
 </body>

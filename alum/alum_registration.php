@@ -1,6 +1,8 @@
 <?php
 require_once 'db_config.php';
 
+$errors = array();
+
 // Check connection
 if ($db_conn->connect_error) {
     die("Connection failed: " . $db_conn->connect_error);
@@ -12,53 +14,61 @@ $email = test_input($_POST["email"]);
 $password = test_input($_POST["password"]);
 $confirm_password = test_input($_POST["confirm_password"]);
 $rollno = test_input($_POST["rollno"]);
-$cpi = test_input($_POST["cpi"]);
 $qualification = test_input($_POST["qualification"]);
 $role = test_input($_POST["role"]);
 $graduation_year = test_input($_POST["graduation_year"]);
-$worked_in_company = isset($_POST["worked_in_company"]) ? 1 : 0;
-$company_name = isset($_POST["company_name"]) ? test_input($_POST["company_name"]) : "";
-$salary_in_company = isset($_POST["salary_in_company"]) ? test_input($_POST["salary_in_company"]) : '0';
 
 // Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Invalid email format");
+    $errors[] = "Invalid email format";
 }
 
 // Validate password strength
 if (strlen($password) < 8) {
-    die("Password must be at least 8 characters long");
+    $errors[] = "Password must be at least 8 characters long";
 }
 
 // Validate password and confirm_password match
 if ($password !== $confirm_password) {
-    die("Passwords do not match");
+    $errors[] = "Passwords do not match";
+}
+
+// Check if email already exists in "alum_auth" table
+$sql = "SELECT email FROM alum_auth WHERE email='$email'";
+$result = $db_conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $errors[] = "Email already in use";
+}
+
+// Validate rollno format (example: BT18CSE001)
+
+// If there are any errors, display them and do not proceed with registration
+if (!empty($errors)) {
+    echo "<ul>";
+    foreach ($errors as $error) {
+        echo "<li>" . $error . "</li>";
+    }
+    echo "</ul>";
+    die();
 }
 
 // Hash password
 $password = password_hash($password, PASSWORD_DEFAULT);
 
-// Check if email already exists in "student_database" table
-$sql = "SELECT email FROM student_auth WHERE email='$email'";
-$result = $db_conn->query($sql);
-
-if ($result->num_rows > 0) {
-    die("Email already in use");
-}
-
-// Insert data into "student_authentication" table
-$sql = "INSERT INTO student_auth (email, password) VALUES ('$email', '$password')";
+// Insert data into "alum_auth" table
+$sql = "INSERT INTO alum_auth (email, password) VALUES ('$email', '$password')";
 
 if ($db_conn->query($sql) !== TRUE) {
     die("Error: " . $sql . "<br>" . $db_conn->error);
 }
 
 // Get the ID of the newly inserted row
-$student_id = $db_conn-> insert_id;
+$alum_id = $db_conn-> insert_id;
 
-// Insert data into "student_database" table
-$sql = "INSERT INTO student_database (id, name, rollno, cpi, qualification, graduation_year) 
-        VALUES ('$student_id', '$fname', '$rollno', '$cpi', '$qualification', '$graduation_year')";
+// Insert data into "alum_database" table
+$sql = "INSERT INTO alum_database (id, name, rollno, qualification, graduation_year) 
+        VALUES ('$alum_id', '$fname', '$rollno', '$qualification', '$graduation_year')";
 
 if ($db_conn->query($sql) === TRUE) {
     // Show success message and login button
@@ -77,4 +87,5 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
 ?>

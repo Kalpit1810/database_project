@@ -3,35 +3,30 @@
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['company_id'])) {
-    header("Location: company_login_ui.php");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login_main.php");
     exit();
 }
 
 // Check if the user has clicked the logout button
-if (isset($_POST['logout'])) {
 	// Display confirmation message
 	echo "<p>Are you sure you want to logout your account?</p>";
 	echo "<form action='logout.php' method='post'>";
 	echo "<input type='submit' name='confirm_logout' value='Yes'>";
 	echo "<input type='submit' name='cancel_logout' value='No'>";
 	echo "</form>";
-} elseif (isset($_POST['confirm_logout'])) {
+if (isset($_POST['confirm_logout'])) {
 		// Delete user session data and redirect to login page
 		session_unset();
 		session_destroy();
 		echo "<div class='success-message'>logout success!</div>";
-        echo "<a class='login-button' href='_company_login_ui.php'>Login</a>";
+        echo "<a class='login-button' href='login_main.php'>Login</a>";
 		exit();
 
-	$conn->close();
+	$db_conn->close();
 } elseif (isset($_POST['cancel_logout'])) {
 	// Redirect to welcome page
-	header("Location: company_webpage.php");
-	exit();
-} else {
-	// Redirect to welcome page
-	header("Location: company_webpage.php");
+	header("Location: welcome.php");
 	exit();
 }
 ?>

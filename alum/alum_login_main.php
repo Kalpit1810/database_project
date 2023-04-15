@@ -10,7 +10,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
   require_once 'db_config.php';
  
   // Check if the email exists in the users table
-  $sql = "SELECT * FROM student_auth WHERE email=?";
+  $sql = "SELECT * FROM alum_auth WHERE email=?";
   $stmt = mysqli_prepare($db_conn, $sql);
   mysqli_stmt_bind_param($stmt, "s", $email);
   mysqli_stmt_execute($stmt);
@@ -24,8 +24,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     // Verify the password
     if (password_verify($password, $hash)) {
       // Set session variables for the user
-      $_SESSION['user_id'] = $user['id'];
-      $_SESSION['user_email'] = $user['email'];
+      $_SESSION['alum_id'] = $user['id'];
+      $_SESSION['alum_email'] = $user['email'];
       // Generate a random token
 
       // Redirect to the welcome page

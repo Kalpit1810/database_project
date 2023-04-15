@@ -1,27 +1,21 @@
 <?php
-$servername = "localhost";
-$username = "newuser";
-$password = "niibtarana";
-$dbname = "dblab8";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once 'db_config.php';
 
 // Check connection
-if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);
+if ($db_conn->connect_error) {
+	die("Connection failed: " . $db_conn->connect_error);
 }
 
 $email = test_input($_POST["email"]);
-$fname = test_input($_POST["fname"]);
-$lname = test_input($_POST["lname"]);
+$id = $_SESSION['user_id'];
+$cpi = test_input($_POST["cpi"]);
 $old_password = $_POST["old_password"];
 $new_password = $_POST["new_password"];
 $confirm_password = $_POST["confirm_password"];
 
 // Check if email exists in "users" table
-$sql = "SELECT * FROM users WHERE email='$email'";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM student_auth WHERE email='$email'";
+$result = $db_conn->query($sql);
 
 if ($result->num_rows > 0) {
 	// Email exists, retrieve user info
@@ -34,19 +28,19 @@ if ($result->num_rows > 0) {
 		if (!empty($new_password)) {
 			if ($new_password == $confirm_password) {
 				$new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
-				$sql = "UPDATE student_database SET first_name='$fname', last_name='$lname', password='$new_password_hash' WHERE email='$email'";
+				$sql = "UPDATE student_database SET cpi='$cpi', password='$new_password_hash' WHERE id='$id'";
 			} else {
 				echo "New password does not match confirm password";
 				exit();
 			}
 		} else {
-			$sql = "UPDATE users SET first_name='$fname', last_name='$lname' WHERE email='$email'";
+			$sql = "UPDATE student_database SET cpi='$cpi' WHERE id='$id'";
 		}
 
-		if ($conn->query($sql) === TRUE) {
+		if ($db_conn->query($sql) === TRUE) {
 			echo "Information updated successfully";
 		} else {
-			echo "Error updating information: " . $conn->error;
+			echo "Error updating information: " . $db_conn->error;
 		}
 	} else {
 		echo "Incorrect old password";
@@ -56,7 +50,7 @@ if ($result->num_rows > 0) {
 	echo "Email does not exist";
 }
 
-$conn->close();
+$db_conn->close();
 
 // Function to validate user input data
 function test_input($data) {

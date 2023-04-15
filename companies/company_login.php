@@ -7,14 +7,10 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
   $password = $_POST['password'];
  
   // Connect to the MySQL database
-  $db_host = "localhost";
-  $db_name = "dblab8";
-  $db_user = "newuser";
-  $db_pass = "niibtarana";
-  $db_conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+  require_once 'db_config.php';
  
   // Check if the email exists in the users table
-  $sql = "SELECT * FROM company_authentication WHERE email=?";
+  $sql = "SELECT * FROM company_auth WHERE email=?";
   $stmt = mysqli_prepare($db_conn, $sql);
   mysqli_stmt_bind_param($stmt, "s", $email);
   mysqli_stmt_execute($stmt);

@@ -2,15 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Company Registration</title>
+    <title>Company Registration</title>8
   </head>
   <body>
-    <form action="company_details_update.php" method="post" enctype="multipart/form-data">
-      <label for="company-name">Company Name:</label>
-      <input type="text" id="company-name" name="company-name" required>
-
-      <label for="company-email">Company Email:</label>
-      <input type="email" id="company-email" name="company-email" required>
+    <form action="company_proposal_update.php" method="post" enctype="multipart/form-data">
 
       <label for="min-graduation">Minimum Graduation:</label>
       <select id="min-graduation" name="min-graduation" required>
@@ -34,26 +29,24 @@
 
       <label for="role">Role:</label>
       <select id="role" name="role" required>
-        <option value="sde">SDE</option>
-        <option value="ml-engineer">ML Engineer</option>
-        <option value="research">Research</option>
-        <option value="data-scientist">Data Scientist</option>
-        <option value="analytics">Analytics</option>
-        <option value="consultant">Consultant</option>
-        <option value="hr">HR</option>
+        <option value="SDE">SDE</option>
+        <option value="ML ENGINEER">ML Engineer</option>
+        <option value="RESEARCH">Research</option>
+        <option value="DATA SCIENTIST">Da ta Scientist</option>
+        <option value="ANALYST">Analytics</option>
+        <option value="CONSULTANT">Consultant</option>
+        <option value="HR">HR</option>
         <option value="core">Core</option>
+        <option value="OTHERS">Others</option>
+
       </select>
-
-      <label for="placement-since">Placement Since Year:</label>
-      <input type="number" id="placement-since" name="placement-since" min="1900" max="2099" step="1" value="2022" required>
-
       <label for="contact-name">Contact Person Name:</label>
       <input type="text" id="contact-name" name="contact-name" required>
 
       <label for="contact-email">Contact Person Email:</label>
       <input type="email" id="contact-email" name="contact-email" required>
 
-      <button type="submit">Update Details</button>
+      <button type="submit">Submit Form</button>
     </form>
 
     <style>
@@ -119,37 +112,4 @@
     
   </body>
 </html>
-
-<?php
-// start session
-session_start();
-
-// establish database connection
-$conn = mysqli_connect("localhost", "newuser", "niibtarana", "dblab8");
-
-// retrieve company data using email from session
-$email = $_SESSION['company_email'];
-$query = "SELECT * FROM company_database WHERE company_email = '$email'";
-$result = mysqli_query($conn, $query);
-
-// check if data exists for given email
-if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    
-    // fill form inputs with company data
-    echo '<script>
-          document.getElementById("company-name").value = "'.$row["company_name"].'";
-          document.getElementById("company-email").value = "'.$row["company_email"].'";
-          document.getElementById("min-graduation").value = "'.$row["min_graduation"].'";
-          document.getElementById("min-cpi").value = "'.$row["min_cpi"].'";
-          document.getElementById("interview-mode").value = "'.$row["interview_process"].'";
-          document.getElementById("salary").value = "'.$row["max_salary"].'";
-          document.getElementById("role").value = "'.$row["role"].'";
-          document.getElementById("placement-since").value = "'.$row["placement_since_year"].'";
-          document.getElementById("contact-name").value = "'.$row["contact_person_name"].'";
-          document.getElementById("contact-email").value = "'.$row["contact_person_email"].'";
-          </script>';
-}
-mysqli_close($conn);
-?>
 
