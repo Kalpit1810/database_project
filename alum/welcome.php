@@ -68,7 +68,6 @@ $user_email = $_SESSION['alum_email'];
 			<div class="dropdown">
 				<button class="dropbtn">other options</button>
 				<div class="dropdown-content">
-					<button onclick="deleteAccount()" class="delete-btn">Delete Account</button>
 					<button onclick="location.href='logout.php';" class="logout-btn">Logout</button>
 				</div>
 			</div>
@@ -134,14 +133,55 @@ $user_email = $_SESSION['alum_email'];
   <p><strong>CPI:</strong> <?php echo $cpi; ?></p>
   <p><strong>Graduation Year:</strong> <?php echo $graduation_year; ?></p>
   <p><strong>Qualification:</strong> <?php echo $qualification; ?></p>
-</div>
 
-	<script>
-	  function deleteAccount() {
-     window.location.href = "delete.php";
-      }
-	  </script>
-      <script>
+  <h2>Placements</h2>
+  <?php
+
+  require_once 'db_config.php';
+$alum_id = $_SESSION['alum_id'];
+
+// Retrieve student details
+$sql = "SELECT * FROM alum_database WHERE id='$alum_id'";
+$result = $db_conn->query($sql);
+
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $name = $row['name'];
+  $rollno = $row['rollno'];
+  $cpi = $row['cpi'];
+  $graduation_year = $row['graduation_year'];
+  $qualification = $row['qualification'];
+  $prev_email = $row['previous_email'];
+
+  // Retrieve current companies enrolled
+  $sql = "SELECT * FROM alum_placed WHERE id='$alum_id'";
+  $result = $db_conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    echo "<table>";
+    echo "<tr><th>Company Name</th><th>Start Date</th><th>End Date</th><th>Role</th><th>Salary</th></tr>";
+    while ($row = $result->fetch_assoc()) {
+      echo "<tr>";
+      echo "<td>" . $row["company_name"] . "</td>";
+      echo "<td>" . $row["start_date"] . "</td>";
+      echo "<td>" . $row["end_date"] . "</td>";
+      echo "<td>" . $row["role"] . "</td>";
+      echo "<td>" . $row["salary"] . "</td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+  } else {
+    echo "<p>No companies enrolled.</p>";
+  }
+
+} else {
+  echo "No data found";
+}
+
+?>
+
+</div>
+    <script>
   // show the "Other" options when the user selects "Other"
   var companyDropdown = document.getElementById("company_name");
   var otherOptionsDiv = document.getElementById("other_options");
@@ -149,11 +189,10 @@ $user_email = $_SESSION['alum_email'];
   var addCarrerForm = document.getElementById("add_carrer");
   var profile = document.getElementById("profile");
 
-
   addCarrerBtn.addEventListener('click', () => {
 		addCarrerForm.style.display = "block";
 		profile.style.display = "none";
-	  })
+	})
 
   companyDropdown.addEventListener("change", function() {
     if (companyDropdown.value === "other") {

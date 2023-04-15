@@ -77,5 +77,8 @@ input[type="submit"]:hover {
 		<input type="password" id="password" name="password" required><br><br>
 		<input type="submit" value="Login">
 	</form>
+  <form action="company_registration.html">
+	<button class="register-btn" id="register-btn">Register</button>
+  </form>
 </body>
 </html>

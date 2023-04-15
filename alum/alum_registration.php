@@ -41,8 +41,6 @@ if ($result->num_rows > 0) {
     $errors[] = "Email already in use";
 }
 
-// Validate rollno format (example: BT18CSE001)
-
 // If there are any errors, display them and do not proceed with registration
 if (!empty($errors)) {
     echo "<ul>";
@@ -73,7 +71,7 @@ $sql = "INSERT INTO alum_database (id, name, rollno, qualification, graduation_y
 if ($db_conn->query($sql) === TRUE) {
     // Show success message and login button
     echo "<div class='success-message'>Account created successfully!</div>";
-    echo "<a class='login-button' href='login_main.php'>Go to Login</a>";
+    echo "<a class='login-button' href='alum_login_main.php'>Go to Login</a>";
 } else {
     echo "Error: " . $sql . "<br>" . $db_conn->error;
 }

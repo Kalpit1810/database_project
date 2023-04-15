@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -11,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // If not "other" company, get data from database
   if ($company_name !== 'other') {
     $rid = (int) $company_name;
-    $sql = "SELECT cr.id, cr.salary, cr.role, cd.name FROM company_roles cr
+    $sql = "SELECT cr.id, cr.year, cr.salary, cr.role, cd.name FROM company_roles cr
             INNER JOIN company_database cd ON cd.id = cr.id
             WHERE cr.rid = $rid;";
     $result = $db_conn->query($sql);
@@ -24,7 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $role = $row['role'];
       $salary = $row['salary'];
       $company_name = $row['name'];
-      $sql = "INSERT INTO alum_placed (company_name, salary, role) VALUES ('$company_name', '$salary', '$role');";
+      $id = $_SESSION['alum_id'];
+      $year = $_SESSION['year'];
+
+
+      $sql = "INSERT INTO alum_placed (id, company_name,year, salary, role) VALUES ($id, '$company_name', '$salary','$year', '$role');";
       if ($db_conn->query($sql) === true) {
         echo "Data inserted successfully.";
       } else {
@@ -37,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
   } else {
     // If "other" company, insert data into database
-    $id = (int) $_POST['id'];
+    $id = $_SESSION['alum_id'];
     $company_name = $_POST['company'];
     $salary = (float) $_POST['salary'];
     $start_date = $_POST['start_date'];
@@ -49,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       die("Error: all fields are required.");
     }
 
-    $sql = "INSERT INTO alum_placed (company_name, salary, start_date, role) VALUES ('$company_name', $salary, '$start_date', '$role');";
+    $sql = "INSERT INTO alum_placed (id, company_name, salary, start_date, role) VALUES ($id, '$company_name', $salary, '$start_date', '$role');";
     if ($db_conn->query($sql) === true) {
       echo "Data inserted successfully.";
     } else {
