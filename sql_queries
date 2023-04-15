@@ -40,6 +40,7 @@ CREATE TABLE company_roles (
   id INT(11) not null,
   contact_phone VARCHAR(10) not null,
   contact_email VARCHAR(255) not null,
+  year date null,
   interview_mode ENUM('online', 'offline') not null,
   min_cpi FLOAT not null,
   qualification ENUM('btech', 'mtech', 'phd', 'others') not null,
@@ -81,6 +82,7 @@ alum_auth -> CREATE TABLE alum_auth (
 alum_database -> CREATE TABLE alum_database (
   did INT AUTO_INCREMENT PRIMARY KEY,
   id INT NOT NULL,
+  name  VARCHAR(100) NOT NULL,
   graduation_year YEAR NOT NULL,
   rollno VARCHAR(10) NOT NULL,
   cpi FLOAT DEFAULT NULL,
@@ -115,6 +117,7 @@ alum_placed -> CREATE TABLE alum_placed (
   pid INT AUTO_INCREMENT PRIMARY KEY,
   id INT,
   company_name VARCHAR(50),
+  year date null,
   salary DECIMAL(10, 2),
   start_date DATE,
   end_date DATE,
