@@ -1,0 +1,150 @@
+input[type="text"] {
+    width: 400px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+  }
+  
+  form {
+    margin: 20px 0;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  table th {
+    background-color: #0072C6;
+    color: #fff;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+  }
+  
+  h1 {
+    font-size: 32px;
+    color: #0072C6;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 30px;
+  }
+  
+  input[type="submit"] {
+    background-color: #0072C6;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #00559F;
+  }
+  
+  label {
+    display: block;
+    font-size: 18px;
+    color: #0072C6;
+    margin-bottom: 10px;
+  }
+  
+  header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .header-left {
+      display: flex;
+      align-items: center;
+  }
+  
+  .header-right {
+      display: flex;
+      align-items: center;
+  }
+  
+  .dropdown {
+      position: relative;
+      display: inline-block;
+  }
+  
+  .dropbtn {
+      background-color: #333;
+      color: #fff;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+  }
+  
+  .dropbtn:hover {
+      background-color: #555;
+  }
+  
+  .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+      display: block;
+  }
+  
+  .dropdown-content button {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+  }
+  
+  .dropdown-content button:hover {
+      background-color: #f1f1f1;
+  }
+  
+  .logout-btn {
+      color: #fff;
+      background-color: #008080;
+      border: none;
+      border-radius: 4px;
+      padding: 14px 20px;
+      margin: 8px 0;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+      background-color: #005959;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }

@@ -1,169 +1,17 @@
 <?php
 session_start();
 // Check if user is logged in
-// if (!isset($_SESSION['admin_id'])) {
-//   header("Location: login_main.php");
-//   exit();
-// }
+if (!isset($_SESSION['admin_id'])) {
+  header("Location: login_main.php");
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MySQL Query</title>
-    <style>
-      
-    input[type="text"] {
-  width: 400px;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-}
-
-form {
-  margin: 20px 0;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-table th, table td {
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-
-table th {
-  background-color: #0072C6;
-  color: #fff;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-}
-
-h1 {
-  font-size: 32px;
-  color: #0072C6;
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 30px;
-}
-
-input[type="submit"] {
-  background-color: #0072C6;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-input[type="submit"]:hover {
-  background-color: #00559F;
-}
-
-label {
-  display: block;
-  font-size: 18px;
-  color: #0072C6;
-  margin-bottom: 10px;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropbtn {
-    background-color: #333;
-    color: #fff;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.dropbtn:hover {
-    background-color: #555;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content button {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content button:hover {
-    background-color: #f1f1f1;
-}
-
-.logout-btn {
-    color: #fff;
-    background-color: #008080;
-    border: none;
-    border-radius: 4px;
-    padding: 14px 20px;
-    margin: 8px 0;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-    background-color: #005959;
-}
-.container {
-  display: flex;
-  justify-content: center;
-}
-
-    </style>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="main_page.css">
 </head>
 <body>
 <header>
@@ -261,8 +109,107 @@ header {
 
             // Close the statement and connection
             mysqli_stmt_close($stmt);
-            mysqli_close($db_conn);
+            // mysqli_close($db_conn);
         }
     ?>
+
+<?php
+// Replace database credentials with your own
+require_once 'db_config.php';
+
+// Check connection
+if (!$db_conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Create dropdown list
+echo "<h2>Select Table:</h2>";
+echo "<form method='post'>";
+echo "<select name='table_name'>";
+echo "<option value='student_auth'>Student</option>";
+echo "<option value='alum_auth'>Alumni</option>";
+echo "<option value='company_auth'>Company</option>";
+echo "</select>";
+echo "<br><br>";
+echo "<input type='submit' value='Show Data'>";
+echo "</form>";
+
+// Show table data on submit
+if (isset($_POST['table_name'])) {
+    $table_name = $_POST['table_name'];
+    $sql = "SELECT * FROM $table_name";
+
+    if ($table_name == 'student_auth') {
+        $sql .= "  JOIN student_database on student_auth.id = student_database.id";
+        $sql .= "  JOIN student_pref on student_auth.id = student_pref.id";
+        $sql .= "  JOIN student_placed on student_auth.id = student_pref.id";
+        $sql .= "  JOIN student_marks on student_auth.id = student_marks.id";
+    } elseif ($table_name == 'alum_auth') {
+        $sql .= " JOIN alum_database on alum_auth.id = alum_database.id";
+        $sql .= " JOIN alum_placed on alum_auth.id = alum_placed.id";
+    } elseif ($table_name == 'company_auth') {
+        $sql .= " JOIN company_database on company_auth.id = company_database.id";
+        $sql .= " JOIN company_roles on company_auth.id = company_roles.id";
+    } 
+
+    $result = mysqli_query($db_conn, $sql);
+
+    // Create table header with search fields
+    echo "<h2>$table_name</h2>";
+    echo "<form method='post'>";
+    echo "<table>";
+    echo "<tr>";
+    $search_values = array(); // store search values for each column
+    while ($column = mysqli_fetch_field($result)) {
+        echo "<th>";
+        echo "<input type='text' name='" . $column->name . "_search' placeholder='Search " . $column->name . "'>";
+        echo "</th>";
+        $search_values[$column->name] = ''; // initialize search value for each column
+    }
+    echo "<th><input type='submit' value='Search'></th>";
+    echo "</tr>";
+
+    // Process search and show table data
+    if (isset($_POST['submit'])) {
+        foreach ($search_values as $key => $value) {
+            if (isset($_POST[$key . '_search'])) {
+                $search_values[$key] = mysqli_real_escape_string($db_conn, $_POST[$key . '_search']); // get search value for each column
+            }
+        }
+        $where_clause = '';
+        foreach ($search_values as $key => $value) {
+            if ($value != '') {
+                if ($where_clause == '') {
+                    $where_clause = "WHERE $key LIKE '%$value%'";
+                } else {
+                    $where_clause .= " AND $key LIKE '%$value%'";
+                }
+            }
+        }
+        if ($where_clause != '') {
+            $sql .= " $where_clause";
+        }
+    }
+    $result = mysqli_query($db_conn, $sql);
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        foreach ($row as $key => $value) {
+            echo "<td>" . $value . "</td>";
+        }
+        echo "</tr>";
+    }
+
+    echo "</table>";
+    echo "<input type='submit' name='submit' value='Search'>";
+    echo "</form>";
+}
+
+// Close connection
+mysqli_close($db_conn);
+
+?>
+
+
+
 </body>
 </html>

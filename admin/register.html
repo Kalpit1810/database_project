@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Registration Form</title>
+</head>
+<body>
+	<h2>User Registration Form</h2>
+	<form action="register.php" method="POST">
+		<label for="email">Email:*</label>
+		<input type="email" id="email" name="email" required>
+		<label for="password">Password:*</label>
+		<input type="password" id="password" name="password" required>
+		<label for="confirm_password">Confirm Password:*</label>
+		<input type="password" id="confirm_password" name="confirm_password" required>
+	<input type="submit" value="Submit">
+	</form>	
+		<style>
+			body {
+			  background-color: #f2f2f2;
+			  font-family: Arial, sans-serif;
+			}
+			
+			h2 {
+			  color: #008080;
+			  text-align: center;
+			}
+			
+			form {
+			  margin: 0 auto;
+			  max-width: 500px;
+			  padding: 20px;
+			  background-color: #ffffff;
+			  border-radius: 5px;
+			  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+			}
+			
+			label {
+			  display: block;
+			  margin-bottom: 5px;
+			  color: #333333;
+			}
+			
+			input[type=text],
+			input[type=email],
+			input[type=password],
+			input[type=number],
+			select {
+			  display: block;
+			  margin-bottom: 10px;
+			  padding: 10px;
+			  width: 100%;
+			  border-radius: 5px;
+			  border: 1px solid #cccccc;
+			  box-sizing: border-box;
+			  font-size: 16px;
+			  color: #333333;
+			}
+			
+			input[type=checkbox] {
+			  margin-right: 5px;
+			}
+			
+			input[type=submit] {
+			  background-color: #008080;
+			  color: #ffffff;
+			  padding: 10px 20px;
+			  border-radius: 5px;
+			  border: none;
+			  font-size: 16px;
+			  cursor: pointer;
+			}
+			
+			input[type=submit]:hover {
+			  background-color: #005959;
+			}
+			
+				</style>
+</body>
+</html>
